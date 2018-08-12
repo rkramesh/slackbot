@@ -1,12 +1,12 @@
 # coding=utf8
-import os,glob
+import os,time,glob,re
 import subprocess
 from subprocess import Popen, PIPE
 from slackbot.bot import respond_to
 from slackbot.utils import download_file, create_tmp_file
 
 
-@respond_to(r'upload \<?(.*)\>?')
+@respond_to(r'upload \<?(.*)\>?',re.IGNORECASE)
 def upload(message, thing):
     # message.channel.upload_file(slack_filename, local_filename,
     #                             initial_comment='')
@@ -22,8 +22,8 @@ def upload(message, thing):
          cwd = os.path.abspath(os.path.dirname(__file__))
 #         fname = os.path.join('/home/osmc/slack/screenshot001.png')
 #         subprocess.check_call(["kodi-send", "--action=TakeScreenshot"])
-         r=Popen(["kodi-send", "--action=TakeScreenshot"], stdout=PIPE, stderr=PIPE)
-         r.wait()
+         Popen(["kodi-send", "--action=TakeScreenshot"], stdout=PIPE, stderr=PIPE)
+         time.sleep(1)
          fname = max(glob.iglob('/home/osmc/slack/screen*.png'), key=os.path.getctime)
          message.channel.upload_file(thing, fname)
 

@@ -1,3 +1,6 @@
+import os,time,glob
+import subprocess
+from subprocess import Popen, PIPE
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import re
@@ -11,6 +14,18 @@ def hi(message):
 @respond_to('I love you')
 def love(message):
     message.reply('I love you too!')
+
+
+@respond_to('kplay')
+def love(message):
+    message.reply('playing Osmc Now!')
+    os.system('kodi-send --action="PlayMedia({})"').format(message)
+
+@respond_to('kboot',re.IGNORECASE)
+def love(message):
+    message.reply('Reboting Osmc Now!')
+    Popen(["sudo","systemctl","restart","mediacenter" ], stdout=PIPE, stderr=PIPE)
+
 
 @respond_to('Fuck')
 def fuck(message):
