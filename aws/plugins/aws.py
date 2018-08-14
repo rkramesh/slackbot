@@ -39,9 +39,29 @@ def love(message):
 #    tk=subprocess.check_output(["aws ec2 describe-instances --query 'Reservations[].Instances[].[Tags[?Key==`Name`].Value[],InstanceType,PrivateIpAddress,LaunchTime]' --output text", 'sed', '$!N;s/\n/ /'], shell=True)
 #    tk=subprocess.Popen("aws ec2 describe-instances --query 'Reservations[].Instances[].[Tags[?Key==`Name`].Value[],InstanceType,PrivateIpAddress]' --output text | sed 's/.*: //g' | sed 's/,/ \//g'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0].strip()
 #    ck=subprocess.check_output( 'aws ec2 describe-instances --output text --query "PrivateIpAddress,Reservations[*].Instances[*].[InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
-    tk=subprocess.check_output( 'aws ec2 describe-instances --output text --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
+    tk=subprocess.check_output( 'aws ec2 describe-instances --output text --profile=helix-dev --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
 
     message.reply(tk)
+
+@respond_to(r'aws \<?(.*)\>?',re.IGNORECASE)
+def aws(message, thing):
+    if thing == 'helix-dev':
+       tk=subprocess.check_output( 'aws ec2 describe-instances --output text --profile=helix-dev --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
+       message.reply(tk)
+
+    elif thing == 'helix-qa':
+       tk=subprocess.check_output( 'aws ec2 describe-instances --output text --profile=helix-qa --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
+       message.reply(tk)
+
+
+    elif thing == 'ecomm-dev':
+       tk=subprocess.check_output( 'aws ec2 describe-instances --output text --profile=ecomm-dev --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
+       message.reply(tk)
+
+
+    elif thing == 'ecomm-qa':
+       tk=subprocess.check_output( 'aws ec2 describe-instances --output text --profile=ecomm-qa --query "Reservations[*].Instances[*].[PrivateIpAddress,InstanceId,State.Name,Tags[0].Value]"', shell=True, stderr=subprocess.STDOUT )
+       message.reply(tk)
 
 @listen_to('Can someone help me?')
 def help(message):
