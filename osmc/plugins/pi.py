@@ -14,6 +14,22 @@ def hi(message):
 @respond_to('I love you')
 def love(message):
     message.reply('I love you too!')
+'''
+@respond_to(r'\cmd \<?(.*)\>?',re.IGNORECASE)
+def cmd(message):
+    message=message.replace("\cmd ","",1)
+    cmdmsg=(subprocess.Popen(message, stdout=subprocess.PIPE, shell=True).communicate()[0]).decode(encoding='utf-8')
+    message.reply(cmdmsg)
+'''
+@respond_to(r'\cmd \<?(.*)\>?',re.IGNORECASE)
+def cmd(message, thing):
+    # message.channel.upload_file(slack_filename, local_filename,
+    #                              initial_comment='')
+    print (thing)
+    if message != '\cmd':
+        cmdmsg=(subprocess.Popen(thing, stdout=subprocess.PIPE, shell=True).communicate()[0]).decode(encoding='utf-8')
+        message.reply('Output: {}'.format(cmdmsg))
+
 
 
 @respond_to('kplay')

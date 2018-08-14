@@ -23,7 +23,7 @@ def upload(message, thing):
 #         fname = os.path.join('/home/osmc/slack/screenshot001.png')
 #         subprocess.check_call(["kodi-send", "--action=TakeScreenshot"])
          Popen(["kodi-send", "--action=TakeScreenshot"], stdout=PIPE, stderr=PIPE)
-         time.sleep(1)
+         time.sleep(3)
          fname = max(glob.iglob('/home/osmc/slack/screen*.png'), key=os.path.getctime)
          message.channel.upload_file(thing, fname)
 
