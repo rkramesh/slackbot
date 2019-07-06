@@ -17,14 +17,15 @@ def upload(message, thing):
             download_file(url, tmpf)
             message.channel.upload_file(url, tmpf,
                                         'downloaded from {}'.format(url))
-    elif thing == 'screenshot.png':
+    elif thing == 'screenshot':
          message.reply('uploading screenshot.png')
          cwd = os.path.abspath(os.path.dirname(__file__))
 #         fname = os.path.join('/home/osmc/slack/screenshot001.png')
 #         subprocess.check_call(["kodi-send", "--action=TakeScreenshot"])
          Popen(["kodi-send", "--action=TakeScreenshot"], stdout=PIPE, stderr=PIPE)
          time.sleep(3)
-         fname = max(glob.iglob('/home/osmc/slack/screen*.png'), key=os.path.getctime)
+         #fname = max(glob.iglob('/home/osmc/slack/screen*.png'), key=os.path.getctime)
+         fname = max(glob.iglob('/home/osmc/slackbot/images/screen*.png'), key=os.path.getctime)
          message.channel.upload_file(thing, fname)
 
     elif thing == 'slack.png':
